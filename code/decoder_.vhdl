@@ -21,31 +21,28 @@ end decoder;
 architecture Behavioral of decoder is
 begin
 
-    -- segment a
+    -- a
     a <= X3 OR X1 OR (X2 AND X0) OR ((NOT X2) AND (NOT X0));
 
-    -- segment b
-    b <= ((NOT X2) OR X3) OR ((NOT X1) AND (NOT X0)) OR (X1 AND X0);
+    -- b
+    b <= (NOT X2) OR X3 OR ((NOT X1) AND (NOT X0)) OR (X1 AND X0);
 
-    -- segment c
-    c <= ((NOT X1) OR X0) OR X2;
+    -- c
+    c <= (NOT X1) OR X0 OR X2;
 
-    -- segment d
-    d <= X3 OR ((NOT X2) AND (NOT X0)) OR ((NOT X2) AND X1) OR ((X2 AND (NOT X1)) AND X0);
-
-    -- segment e
-    e <= (X1 AND (NOT X0)) OR ((NOT X2) AND (NOT X0));
-
-    -- segment f
-    f <= ((NOT X1) AND (NOT X0)) OR 
-         (X2 AND (NOT X1)) OR 
-         (X0 AND (NOT X2)) OR 
-         X3;
-
-    -- segment g
-    g <= (X2 AND (NOT X1)) OR 
+    -- d
+    d <= X3 OR ((NOT X2) AND (NOT X0)) OR ((NOT X0) AND X1) OR
          ((NOT X2) AND X1) OR
-         (X1 AND (NOT X0)) OR 
-         X3;
+         ((X0 AND (NOT X1)) AND X2);
+
+    -- e
+    e <= (X1 AND (NOT X0)) OR
+         ((NOT X2) AND (NOT X0));
+
+    -- f
+    f <= ((NOT X1) AND (NOT X0)) OR
+         (X2 AND (NOT X1)) OR
+         (X2 AND (NOT X0)) OR X3;
+
 
 end Behavioral;
