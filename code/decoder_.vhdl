@@ -1,12 +1,13 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity decoder_ is
+entity decoder is
     Port (
-        D : in  STD_LOGIC;
-        C : in  STD_LOGIC;
-        B : in  STD_LOGIC;
-        A : in  STD_LOGIC;
+        X3 : in  STD_LOGIC; 
+        X2 : in  STD_LOGIC; 
+        X1 : in  STD_LOGIC; 
+        X0 : in  STD_LOGIC; 
+
         a : out STD_LOGIC;
         b : out STD_LOGIC;
         c : out STD_LOGIC;
@@ -15,27 +16,36 @@ entity decoder_ is
         f : out STD_LOGIC;
         g : out STD_LOGIC
     );
-end decoder_;
+end decoder;
 
-architecture Behavioral of decoder_ is
+architecture Behavioral of decoder is
 begin
 
-    a <= D OR B OR (C AND A) OR ((NOT C) AND (NOT A));
+    -- segment a
+    a <= X3 OR X1 OR (X2 AND X0) OR ((NOT X2) AND (NOT X0));
 
-    b <= ((NOT C) OR D) OR ((NOT B) AND (NOT A)) OR (B AND A);
+    -- segment b
+    b <= ((NOT X2) OR X3) OR ((NOT X1) AND (NOT X0)) OR (X1 AND X0);
 
-    c <= ((NOT B) OR A) OR C;
+    -- segment c
+    c <= ((NOT X1) OR X0) OR X2;
 
-    d <= D OR ((NOT C) AND (NOT A)) OR ((NOT C) AND B) OR ((C AND (NOT B)) AND A);
+    -- segment d
+    d <= X3 OR ((NOT X2) AND (NOT X0)) OR ((NOT X2) AND X1) OR ((X2 AND (NOT X1)) AND X0);
 
-    e <= (B AND (NOT A)) OR 
-         ((NOT C) AND (NOT A));
+    -- segment e
+    e <= (X1 AND (NOT X0)) OR ((NOT X2) AND (NOT X0));
 
-    f <= ((NOT B) AND (NOT A)) OR 
-         (C AND (NOT B)) OR 
-         (A AND (NOT C)) OR D;
+    -- segment f
+    f <= ((NOT X1) AND (NOT X0)) OR 
+         (X2 AND (NOT X1)) OR 
+         (X0 AND (NOT X2)) OR 
+         X3;
 
-    g <= (C AND (NOT B)) OR ((NOT C) AND B) OR
-         (B AND (NOT A)) OR D;
+    -- segment g
+    g <= (X2 AND (NOT X1)) OR 
+         ((NOT X2) AND X1) OR
+         (X1 AND (NOT X0)) OR 
+         X3;
 
 end Behavioral;

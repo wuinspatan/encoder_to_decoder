@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity encoder_ is
+entity encoder is
     Port (
         I1 : in  STD_LOGIC;
         I2 : in  STD_LOGIC;
@@ -17,9 +17,9 @@ entity encoder_ is
         B  : out STD_LOGIC;
         A  : out STD_LOGIC
     );
-end encoder_;
+end encoder;
 
-architecture Behavioral of encoder_ is
+architecture Behavioral of encoder is
 
 begin
 

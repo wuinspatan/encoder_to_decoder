@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity ENCODER_TO_DECODER_ is
+entity ENCODER_TO_DECODER is
     Port (
         I1 : in  STD_LOGIC;
         I2 : in  STD_LOGIC;
@@ -12,6 +12,7 @@ entity ENCODER_TO_DECODER_ is
         I7 : in  STD_LOGIC;
         I8 : in  STD_LOGIC;
         I9 : in  STD_LOGIC;
+
         a  : out STD_LOGIC;
         b  : out STD_LOGIC;
         c  : out STD_LOGIC;
@@ -20,44 +21,41 @@ entity ENCODER_TO_DECODER_ is
         f  : out STD_LOGIC;
         g  : out STD_LOGIC
     );
-end ENCODER_TO_DECODER_;
+end ENCODER_TO_DECODER;
 
-architecture Behavioral of ENCODER_TO_DECODER_ is
+architecture Behavioral of ENCODER_TO_DECODER is
 
-    signal D, C, B, A : STD_LOGIC;
+    -- renamed signals (fix conflict)
+    signal X3, X2, X1, X0 : STD_LOGIC;
 
 begin
 
     -- ===== ENCODER =====
-    -- D = I8 + I9
-    D <= I8 OR I9;
+    X3 <= I8 OR I9;
 
-    -- C = I4 + I5 + I6 + I7
-    C <= (I4 OR I5) OR (I6 OR I7);
+    X2 <= (I4 OR I5) OR (I6 OR I7);
 
-    -- B = I2 + I3 + I6 + I7
-    B <= (I2 OR I3) OR (I6 OR I7);
+    X1 <= (I2 OR I3) OR (I6 OR I7);
 
-    -- A = I1 + I3 + I5 + I7 + I9
-    A <= ((I1 OR I3) OR (I5 OR I7)) OR I9;
+    X0 <= ((I1 OR I3) OR (I5 OR I7)) OR I9;
 
     -- ===== DECODER =====
-    a <= D OR B OR (C AND A) OR ((NOT C) AND (NOT A));
+    a <= X3 OR X1 OR (X2 AND X0) OR ((NOT X2) AND (NOT X0));
 
-    b <= ((NOT C) OR D) OR ((NOT B) AND (NOT A)) OR (B AND A);
+    b <= ((NOT X2) OR X3) OR ((NOT X1) AND (NOT X0)) OR (X1 AND X0);
 
-    c <= ((NOT B) OR A) OR C;
+    c <= ((NOT X1) OR X0) OR X2;
 
-    d <= D OR ((NOT C) AND (NOT A)) OR ((NOT C) AND B) OR ((C AND (NOT B)) AND A);
+    d <= X3 OR ((NOT X2) AND (NOT X0)) OR ((NOT X2) AND X1) OR ((X2 AND (NOT X1)) AND X0);
 
-    e <= (B AND (NOT A)) OR
-         ((NOT C) AND (NOT A));
+    e <= (X1 AND (NOT X0)) OR
+         ((NOT X2) AND (NOT X0));
 
-    f <= ((NOT B) AND (NOT A)) OR
-         (C AND (NOT B)) OR
-         (A AND (NOT C)) OR D;
+    f <= ((NOT X1) AND (NOT X0)) OR
+         (X2 AND (NOT X1)) OR
+         (X0 AND (NOT X2)) OR X3;
 
-    g <= (C AND (NOT B)) OR ((NOT C) AND B) OR
-         (B AND (NOT A)) OR D;
+    g <= (X2 AND (NOT X1)) OR ((NOT X2) AND X1) OR
+         (X1 AND (NOT X0)) OR X3;
 
 end Behavioral;
